@@ -94,10 +94,6 @@ Sure! Here are a few suggestions to enhance the administration app:
 
 9. Document the app: Write detailed documentation explaining the functionality, usage, and configuration of the administration app. Include information on setting up the development environment, installing dependencies, and running the app.
 
-Remember to follow the Django best practices, adhere to the coding conventions, and ensure the security of the application by following secure coding practices.
-
-I hope these suggestions are helpful for further improving your administration app! Let me know if you have any more questions.
-
 ````````````````````````````````````````
 To optimize the performance of our Django administration app, we can consider the following techniques:
 
