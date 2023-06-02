@@ -1,30 +1,25 @@
 from django import forms
-from .models import District, Upazilla, Union
+from .models import Address, EmergencyContact
 
-
-class DistrictForm(forms.ModelForm):
+class AddressForm(forms.ModelForm):
     class Meta:
-        model = District
-        fields = '__all__'
+        model = Address
+        fields = ['street', 'city', 'state', 'postal_code', 'country']
         widgets = {
-            'name': forms.TextInput(attrs={'class': 'form-control'}),
+            'street': forms.TextInput(attrs={'class': 'form-control'}),
+            'city': forms.TextInput(attrs={'class': 'form-control'}),
+            'state': forms.TextInput(attrs={'class': 'form-control'}),
+            'postal_code': forms.TextInput(attrs={'class': 'form-control'}),
+            'country': forms.TextInput(attrs={'class': 'form-control'}),
         }
 
-class UpazillaForm(forms.ModelForm):
+class EmergencyContactForm(forms.ModelForm):
     class Meta:
-        model = Upazilla
-        fields = '__all__'
+        model = EmergencyContact
+        fields = ['name', 'relationship', 'phone', 'email']
         widgets = {
-            'district': forms.Select(attrs={'class': 'form-control'}),
             'name': forms.TextInput(attrs={'class': 'form-control'}),
-        }
-
-class UnionForm(forms.ModelForm):
-    class Meta:
-        model = Union
-        fields = '__all__'
-        widgets = {
-            'district': forms.Select(attrs={'class': 'form-control'}),
-            'upazilla': forms.Select(attrs={'class': 'form-control'}),
-            'name': forms.TextInput(attrs={'class': 'form-control'}),
+            'relationship': forms.TextInput(attrs={'class': 'form-control'}),
+            'phone': forms.TextInput(attrs={'class': 'form-control'}),
+            'email': forms.EmailInput(attrs={'class': 'form-control'}),
         }

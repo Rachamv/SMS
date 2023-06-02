@@ -1,56 +1,71 @@
 from django.shortcuts import render, redirect
-from .models import District, Upazilla, Union
-from .forms import DistrictForm, UpazillaForm, UnionForm
+from .forms import AddressForm, EmergencyContactForm
+from .models import Address, EmergencyContact
+from django.contrib.auth.decorators import login_required
 
-def load_upazilla(request):
-    district_id = request.GET.get('district')
-    print('....................')
-    print(district_id)
-    upazilla = Upazilla.objects.filter(district_id=district_id).order_by('name')
+@login_required(login_url='login')
+def address(request):
+    try:
+        address = Address.objects.get(user=request.user)
+    except Address.DoesNotExist:
+        address = None
+
+    try:
+        emergency_contact = EmergencyContact.objects.get(address=address)
+    except EmergencyContact.DoesNotExist:
+        emergency_contact = None
+
     context = {
-        'upazilla': upazilla
+        'address': address,
+        'emergency_contact': emergency_contact
     }
-    return render(request, 'administration/upazilla_dropdown_list_options.html', context)
+    return render(request, 'address/address.html', context)
 
-def load_union(request):
-    upazilla_id = request.GET.get('upazilla')
-    union = Union.objects.filter(upazilla_id=upazilla_id).order_by('name')
+
+@login_required(login_url='login')
+def update_address(request):
+    try:
+        address = Address.objects.get(user=request.user)
+    except Address.DoesNotExist:
+        address = None
+
+    if request.method == 'POST':
+        form = AddressForm(request.POST, instance=address)
+        if form.is_valid():
+            form.save()
+            return redirect('address')
+    else:
+        form = AddressForm(instance=address)
+
     context = {
-        'union': union
+        'form': form
     }
-    return render(request, 'others/union_dropdown_list_options.html', context)
+    return render(request, 'address/update_address.html', context)
 
 
-def add_district(request):
-    forms = DistrictForm()
+@login_required(login_url='login')
+def update_emergency_contact(request):
+    try:
+        address = Address.objects.get(user=request.user)
+    except Address.DoesNotExist:
+        address = None
+
+    try:
+        emergency_contact = EmergencyContact.objects.get(address=address)
+    except EmergencyContact.DoesNotExist:
+        emergency_contact = None
+
     if request.method == 'POST':
-        forms = DistrictForm(request.POST)
-        if forms.is_valid():
-            forms.save()
-            return redirect('district')
-    district = District.objects.all()
-    context = {'forms': forms, 'district': district}
-    return render(request, 'address/district.html', context)
+        form = EmergencyContactForm(request.POST, instance=emergency_contact)
+        if form.is_valid():
+            emergency_contact = form.save(commit=False)
+            emergency_contact.address = address
+            emergency_contact.save()
+            return redirect('address')
+    else:
+        form = EmergencyContactForm(instance=emergency_contact)
 
-def add_upazilla(request):
-    forms = UpazillaForm()
-    if request.method == 'POST':
-        forms = UpazillaForm(request.POST)
-        if forms.is_valid():
-            forms.save()
-            return redirect('upazilla')
-    upazilla = Upazilla.objects.all()
-    context = {'forms': forms, 'upazilla': upazilla}
-    return render(request, 'address/upazilla.html', context)
-
-def add_union(request):
-    forms = UnionForm()
-    if request.method == 'POST':
-        forms = UnionForm(request.POST)
-        if forms.is_valid():
-            forms.save()
-            return redirect('union')
-    union = Union.objects.all()
-    context = {'forms': forms, 'union': union}
-    return render(request, 'address/union.html', context)
-
+    context = {
+        'form': form
+    }
+    return render(request, 'address/update_emergency_contact.html', context)

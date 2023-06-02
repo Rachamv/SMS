@@ -14,6 +14,7 @@ class UserProfile(models.Model):
         ('admin', 'Admin'),
         ('professor', 'Professor'),
         ('teacher', 'Teacher'),
+        ('parent', 'Parent'),
         ('register', 'Register'),
         ('student', 'Student'),
     )

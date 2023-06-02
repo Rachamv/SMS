@@ -1,22 +1,27 @@
 from django import forms
-from teacher import models
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import User
+from .models import ChiefExecutive, HeadTeacher, Secretary
 
 class AdminLoginForm(forms.Form):
-    username = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Username'}))
-    password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Password'}))
+    username = forms.CharField(label='Username')
+    password = forms.CharField(label='Password', widget=forms.PasswordInput)
 
+class ChiefExecutiveForm(forms.ModelForm):
+    class Meta:
+        model = ChiefExecutive
+        fields = ['name']
 
-class AddDepartmentForm(forms.ModelForm):
+class HeadTeacherForm(UserCreationForm):
+    name = forms.CharField(max_length=100)
+
     class Meta:
-        model = models.Department
-        fields = '__all__'
-        widgets = {
-            'name': forms.TextInput(attrs={'class': 'form-control'}),
-        }
-class AddDesignationForm(forms.ModelForm):
+        model = HeadTeacher
+        fields = ['name', 'username', 'password1', 'password2']
+
+class SecretaryForm(UserCreationForm):
+    name = forms.CharField(max_length=100)
+
     class Meta:
-        model = models.Designation
-        fields = '__all__'
-        widgets = {
-            'name': forms.TextInput(attrs={'class': 'form-control'}),
-        }
+        model = Secretary
+        fields = ['name', 'username', 'password1', 'password2']

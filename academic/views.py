@@ -17,6 +17,18 @@ def add_department(request):
     context = {'forms': forms, 'department': department}
     return render(request, 'academic/add-department.html', context)
 
+@login_required(login_url='login')
+def add_grade(request):
+    forms = GradeForm()
+    if request.method == 'POST':
+        forms = GradeForm(request.POST)
+        if forms.is_valid():
+            forms.save()
+            return redirect('add-grade')
+    grade = Grade.objects.all()
+    context = {'forms': forms, 'grade': grade}
+    return render(request, 'academic/add-grade.html', context)
+
 def add_class(request):
     forms = ClassForm()
     if request.method == 'POST':
@@ -58,20 +70,6 @@ def create_session(request):
         'session': session
     }
     return render(request, 'academic/create-session.html', context)
-
-def create_shift(request):
-    forms = ShiftForm()
-    if request.method == 'POST':
-        forms = ShiftForm(request.POST)
-        if forms.is_valid():
-            forms.save()
-            return redirect('create-shift')
-    shift = Shift.objects.all()
-    context = {
-        'forms': forms,
-        'shift': shift
-    }
-    return render(request, 'academic/create-shift.html', context)
 
 def class_registration(request):
     forms = ClassRegistrationForm()

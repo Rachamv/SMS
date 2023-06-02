@@ -1,6 +1,6 @@
 from django.db import models
 from academic.models import Department
-from administration.models import Designation
+#from administration.models import Designation
 from address.models import District, Upazilla, Union
 
 
@@ -43,7 +43,7 @@ class JobInfo(models.Model):
     category = models.CharField(choices=category_choice, max_length=45)
     joning_date = models.DateField()
     institute_name = models.CharField(max_length=100)
-    job_designation = models.ForeignKey(Designation, on_delete=models.CASCADE)
+    #job_designation = models.ForeignKey(Designation, on_delete=models.CASCADE)
     department = models.ForeignKey(Department, on_delete=models.CASCADE)
     scale = models.IntegerField()
     grade_of_post = models.CharField(max_length=45)

@@ -2,10 +2,17 @@ from django import forms
 from . import models
 from academic.models import ClassRegistration
 
-
 class DepartmentForm(forms.ModelForm):
     class Meta:
         model = models.Department
+        fields = '__all__'
+        widgets = {
+            'name': forms.TextInput(attrs={'class': 'form-control'}),
+        }
+
+class GradeForm(forms.ModelForm):
+    class Meta:
+        model = models.Grade
         fields = '__all__'
         widgets = {
             'name': forms.TextInput(attrs={'class': 'form-control'}),
@@ -36,14 +43,6 @@ class SessionForm(forms.ModelForm):
             'name': forms.NumberInput(attrs={'class': 'form-control'}),
         }
 
-class ShiftForm(forms.ModelForm):
-    class Meta:
-        model = models.Shift
-        fields = '__all__'
-        widgets = {
-            'name': forms.TextInput(attrs={'class': 'form-control'}),
-        }
-
 class ClassRegistrationForm(forms.ModelForm):
     class Meta:
         model = ClassRegistration
@@ -51,10 +50,10 @@ class ClassRegistrationForm(forms.ModelForm):
         widgets = {
             'name': forms.TextInput(attrs={'class': 'form-control'}),
             'department': forms.Select(attrs={'class': 'form-control'}),
+            'grade': forms.Select(attrs={'class': 'form-control'}),
             'class_name': forms.Select(attrs={'class': 'form-control'}),
             'section': forms.Select(attrs={'class': 'form-control'}),
             'session': forms.Select(attrs={'class': 'form-control'}),
-            'shift': forms.Select(attrs={'class': 'form-control'}),
             'guide_teacher': forms.Select(attrs={'class': 'form-control'}),
         }
 
