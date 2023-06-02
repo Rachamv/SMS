@@ -1,6 +1,8 @@
 from django.db import models
 from academic.models import ClassRegistration
 from student.models import EnrolledStudent
+from employee.models import PersonalInfo
+from account.models import UserProfile
 
 class AttendanceManager(models.Manager):
     def create_attendance(self, std_class, std_roll, period):

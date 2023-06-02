@@ -1,83 +1,97 @@
 from django.db import models
-from address.models import District, Upazilla, Union
-# from administration.models import Designation
+from django.contrib.auth.models import User
 from academic.models import Department
-
-
-class EmployeeAddressInfo(models.Model):
-    district = models.ForeignKey(District, on_delete=models.CASCADE, null=True)
-    upazilla = models.ForeignKey(Upazilla, on_delete=models.CASCADE, null=True)
-    union = models.ForeignKey(Union, on_delete=models.CASCADE, null=True)
-    village = models.TextField()
-
-    def __str__(self):
-        return self.village
+from address.models import Address
 
 class EducationInfo(models.Model):
+    # Existing fields
+
+    LEVEL_CHOICES = (
+        ('primary', 'Primary'),
+        ('secondary', 'Secondary'),
+        ('higher-secondary', 'Higher Secondary'),
+        ('bachelors', 'Bachelors'),
+        ('masters', 'Masters'),
+        ('phd', 'PhD'),
+        ('other', 'Other'),
+    )
+
     name_of_exam = models.CharField(max_length=100)
     institute = models.CharField(max_length=255)
-    group = models.CharField(max_length=100)
-    grade = models.CharField(max_length=45)
-    board = models.CharField(max_length=45)
+    level = models.CharField(max_length=15, choices=LEVEL_CHOICES)
+    major = models.CharField(max_length=100)
+    result = models.CharField(max_length=45)
     passing_year = models.IntegerField()
+    certificate = models.FileField(upload_to='employee_documents/', blank=True, null=True)
 
     def __str__(self):
         return self.name_of_exam
 
 class TrainingInfo(models.Model):
+    # Existing fields
+
     training_name = models.CharField(max_length=100)
-    year = models.IntegerField()
-    duration = models.IntegerField()
-    place = models.CharField(max_length=100)
+    provider = models.CharField(max_length=100)
+    start_date = models.DateField()
+    end_date = models.DateField()
+    duration_in_hours = models.PositiveIntegerField()
+    location = models.CharField(max_length=100)
 
     def __str__(self):
         return self.training_name
 
 class EmployeeJobInfo(models.Model):
-    category_choice = (
-        ('bcs', 'BCS'),
-        ('nationalized', 'Nationalized'),
-        ('10% quota', '10% quota'),
-        ('non govt.', 'Non Govt.')
+    # Existing fields
+
+    EMPLOYEE_CATEGORIES = (
+        ('teaching', 'Teaching Staff'),
+        ('non-teaching', 'Non-Teaching Staff'),
+        ('head-teacher', 'Head Teacher'),
+        ('secretary', 'Secretary'),
     )
-    category = models.CharField(choices=category_choice, max_length=45)
-    joning_date = models.DateField()
-    institute_name = models.CharField(max_length=100)
-    # job_designation = models.ForeignKey(Designation, on_delete=models.CASCADE)
+
+    DESIGNATION_LEVELS = (
+        ('level1', 'Level 1'),
+        ('level2', 'Level 2'),
+        ('level3', 'Level 3'),
+        ('level4', 'Level 4'),
+    )
+
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    category = models.CharField(max_length=20, choices=EMPLOYEE_CATEGORIES)
+    designation = models.CharField(max_length=100)
     department = models.ForeignKey(Department, on_delete=models.CASCADE)
-    scale = models.IntegerField()
-    grade_of_post = models.CharField(max_length=45)
-    first_time_scale_due_year = models.IntegerField()
-    second_time_scale_due_year = models.IntegerField()
-    promotion_due_year = models.IntegerField()
-    recreation_leave_due_year = models.IntegerField()
-    expected_retirement_year = models.IntegerField()
+    joining_date = models.DateField()
+    salary = models.DecimalField(max_digits=10, decimal_places=2)
+    designation_level = models.CharField(max_length=10, choices=DESIGNATION_LEVELS)
+    is_active = models.BooleanField(default=True)
 
     def __str__(self):
-        return self.institute_name
+        return self.designation
 
 class ExperienceInfo(models.Model):
-    institute_name = models.CharField(max_length=100)
-    designation = models.CharField(max_length=45)
-    trainer = models.CharField(max_length=45)
+    # Existing fields
+
+    organization = models.CharField(max_length=100)
+    designation = models.CharField(max_length=100)
+    start_date = models.DateField()
+    end_date = models.DateField(blank=True, null=True)
+    responsibilities = models.TextField()
+    trainings = models.ManyToManyField(TrainingInfo, blank=True)
 
     def __str__(self):
-        return self.institute_name
+        return self.organization
 
 class PersonalInfo(models.Model):
-    name = models.CharField(max_length=45)
-    photo = models.ImageField()
-    date_of_birth = models.DateField()
-    place_of_birth = models.CharField(max_length=45)
-    nationality = models.CharField(max_length=45)
-    religion = models.CharField(max_length=45)
-    gender_choice = (
+    # Existing fields
+
+    GENDER_CHOICES = (
         ('male', 'Male'),
         ('female', 'Female'),
-        ('other', 'Other')
+        ('other', 'Other'),
     )
-    gender = models.CharField(choices=gender_choice, max_length=10)
-    blood_group_choice = (
+
+    BLOOD_GROUP_CHOICES = (
         ('a+', 'A+'),
         ('o+', 'O+'),
         ('b+', 'B+'),
@@ -85,29 +99,64 @@ class PersonalInfo(models.Model):
         ('a-', 'A-'),
         ('o-', 'O-'),
         ('b-', 'B-'),
-        ('ab-', 'AB-')
+        ('ab-', 'AB-'),
     )
-    blood_group = models.CharField(choices=blood_group_choice, max_length=5)
-    e_tin = models.IntegerField(unique=True)
-    nid = models.IntegerField(unique=True)
-    driving_license_passport = models.IntegerField(unique=True)
-    phone_no = models.CharField(max_length=11, unique=True)
-    email = models.CharField(max_length=255, unique=True)
-    father_name = models.CharField(max_length=45)
-    mother_name = models.CharField(max_length=45)
-    marital_status_choice = (
+
+    MARITAL_STATUS_CHOICES = (
         ('married', 'Married'),
         ('widowed', 'Widowed'),
         ('separated', 'Separated'),
         ('divorced', 'Divorced'),
-        ('single', 'Single')
+        ('single', 'Single'),
     )
-    marital_status = models.CharField(choices=marital_status_choice, max_length=10)
-    address = models.ForeignKey(EmployeeAddressInfo, on_delete=models.CASCADE, null=True)
-    education = models.ForeignKey(EducationInfo, on_delete=models.CASCADE, null=True)
-    training = models.ForeignKey(TrainingInfo, on_delete=models.CASCADE, null=True)
-    job = models.ForeignKey(EmployeeJobInfo, on_delete=models.CASCADE, null=True)
-    experience = models.ForeignKey(ExperienceInfo, on_delete=models.CASCADE, null=True)
+
+    name = models.CharField(max_length=45)
+    photo = models.ImageField(upload_to='photos/')
+    date_of_birth = models.DateField()
+    place_of_birth = models.CharField(max_length=45)
+    nationality = models.CharField(max_length=45)
+    religion = models.CharField(max_length=45)
+    gender = models.CharField(max_length=10, choices=GENDER_CHOICES)
+    blood_group = models.CharField(max_length=5, choices=BLOOD_GROUP_CHOICES)
+    e_tin = models.CharField(max_length=11, unique=True)  # Employee Tax Identification Number
+    nid = models.CharField(max_length=11, unique=True)  # National Identification Number
+    driving_license_passport = models.CharField(max_length=11, unique=True)
+    phone_no = models.CharField(max_length=11, unique=True)
+    email = models.EmailField(unique=True)
+    resume = models.FileField(upload_to='employee_documents/', blank=True, null=True)  # Updated upload_to value
+    father_name = models.CharField(max_length=45)
+    mother_name = models.CharField(max_length=45)
+    marital_status = models.CharField(max_length=10, choices=MARITAL_STATUS_CHOICES)
+    address = models.ForeignKey(Address, on_delete=models.CASCADE, null=True)
+    emergency_contact = models.ForeignKey(EmergencyContact, on_delete=models.CASCADE, null=True)
 
     def __str__(self):
         return self.name
+
+class LeaveRequest(models.Model):
+    # Existing fields
+
+    STATUS_CHOICES = (
+        ('pending', 'Pending'),
+        ('approved', 'Approved'),
+        ('rejected', 'Rejected'),
+    )
+
+    employee = models.ForeignKey(EmployeeJobInfo, on_delete=models.CASCADE)
+    start_date = models.DateField()
+    end_date = models.DateField()
+    reason = models.TextField()
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending')
+
+    def __str__(self):
+        return f"{self.employee} - {self.start_date} to {self.end_date}"
+
+class EmployeeDocument(models.Model):
+    # Existing fields
+
+    employee = models.ForeignKey(EmployeeJobInfo, on_delete=models.CASCADE)
+    document = models.FileField(upload_to='employee_documents/')
+    upload_date = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.employee} - {self.document.name}"

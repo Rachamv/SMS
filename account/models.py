@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=45)
-    photo = models.ImageField(upload_to='admin/')
+    photo = models.ImageField(upload_to='photos/')
     gender_select = (
         ('male', 'Male'),
         ('female', 'Female')
