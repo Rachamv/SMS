@@ -52,14 +52,16 @@ class GuideTeacher(models.Model):
 
     def __str__(self):
         return str(self.name)
+ 
 
-class ClassRegistration(models.Model):
     name = models.CharField(max_length=10, unique=True)
     department_select = (
         ('general', 'General'),
         ('science', 'Science'),
         ('business', 'Business'),
-        ('humanities', 'Humanities')
+        ('humanities', 'Humanities'),
+        ('N/A', 'N/A')
+      
     )
     grade_select = (
         ('grade 1', 'Grade 1'),

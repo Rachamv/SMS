@@ -1,36 +1,20 @@
 # Office of Admin
 
 ===Model===
+1. `PersonalInfo`: This model represents personal information about a student. It includes fields such as name, photo, blood group, date of birth, gender, phone number, email, birth certificate number, religion, and nationality.
 
-We have a `Event` model with the following fields:
+2. `StudentAddressInfo`: This model stores the present address, permanent address, district, and country information for a student.
 
-- `title`: Represents the title or name of the event. It is a `CharField` with a maximum length of 100 characters.
-- `description`: Represents the description or details of the event. It is a `TextField` that can hold a large amount of text.
-- `start_date` and `end_date`: Represent the start and end dates and times of the event. They are `DateTimeField` fields that store both date and time information.
-- `location`: Represents the location or venue of the event. It is a `CharField` with a maximum length of 100 characters.
-In this updated version, we have added two additional fields:
+3. `GuardianInfo`: This model represents the guardian information of a student. It has a foreign key relationship with the `Guardian` model from the `parent` app.
 
-- `organizer`: Represents the user who organized the event. It is a foreign key to the `User` model provided by Django's authentication system. The `on_delete=models.CASCADE` parameter specifies that if the user is deleted, all associated events will also be deleted.
-- `image`: Represents an image related to the event. It is an `ImageField` that allows users to upload an image. The `upload_to` parameter specifies the directory where the uploaded images will be stored. The `blank=True, null=True` parameters allow the field to be optional.
+4. `PreviousAcademicInfo`: This model stores information about the previous academic institution attended by a student. It includes fields such as the institute name, name of the exam, group, and passing year.
 
-To implement recurring events, introducie additional fields in the `Event` model to handle 
+5. `Certificate`: This model stores various certificates related to a student, such as birth certificate, release letter, testimonial, and other certificates. These are stored as file fields.
 
-The `is_recurring` field is a boolean flag that indicates whether the event is recurring or not. If it is set to `True`, then the event is considered a recurring event.
+6. `AcademicInfo`: This model represents the academic information of a student. It has fields such as class info (foreign key to `ClassInfo` model), registration number, status (enrollment status), personal info (foreign key to `PersonalInfo` model), address info (foreign key to `StudentAddressInfo` model), guardian info (foreign key to `GuardianInfo` model), emergency contact info (foreign key to `EmergencyDetails` model), previous academic info (foreign key to `PreviousAcademicInfo` model), certificate (foreign key to `Certificate` model), date (date when the record was created), and is_delete (a boolean field to mark if the record is deleted).
 
-The `recurrence_type` field stores the type of recurrence pattern, such as "daily", "weekly", "monthly", etc.
+7. `ClassRegistration`: This model represents the registration of a student for a specific class. It includes fields such as name, department, grade, class name (foreign key to `ClassInfo` model), section (foreign key to `Section` model), session (foreign key to `Session` model), guide teacher (foreign key to `GuideTeacher` model), and date.
 
-The `recurrence_frequency` field represents the number of times the event should occur based on the recurrence type. For example, if the recurrence type is set to "weekly" and the recurrence frequency is set to 2, the event will occur every 2 weeks.
-
-The `recurrence_interval` field specifies the interval between each occurrence of the event. For example, if the recurrence type is set to "monthly" and the recurrence interval is set to 3, the event will occur every 3 months.
-
-The `recurrence_end_date` field allows you to set an end date for the recurring events. After the end date, the event will no longer recur.
-
-- Attendance fields: `students_attending`, `parents_attending`, and `teachers_attending` are ManyToManyFields that establish relationships between an event and the students, parents, and teachers attending the event.
-- Visibility field: The `visibility` field is a CharField with choices to determine the visibility of the event (public, internal, restricted).
-- Sponsorship field: The `sponsors` field is a ManyToManyField that relates the Event model with the Sponsor model to track event sponsors.
-- EventDocument model: The `EventDocument` model allows attachments of documents related to the event, such as schedules, presentations, or handouts. It has a ForeignKey to the Event model and a FileField to store the document files.
-- EventFeedback model: The `EventFeedback` model allows users to provide feedback and ratings for events. It has a ForeignKey to the Event model, a ForeignKey to the User model, and fields for rating and comments.
-The `show_sponsor` field is added as a BooleanField with a default value of `True`. This field indicates whether the sponsor should be shown or hidden. 
 
 
 ===Views===
