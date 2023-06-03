@@ -39,6 +39,13 @@ class Session(models.Model):
     def __str__(self):
         return str(self.name)
 
+class Subject(models.Model):
+    name = models.CharField(max_length=100, unique=True)
+    date = models.DateField(auto_now_add=True)
+
+    def __str__(self):
+        return self.name
+
 class GuideTeacher(models.Model):
     name = models.OneToOneField(PersonalInfo, on_delete=models.CASCADE, null=True)
     date = models.DateField(auto_now_add=True)

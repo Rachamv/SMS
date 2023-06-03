@@ -1,104 +1,80 @@
-# Administration App Documentation
+# Teacher App Documentation
 
-The Administration app is a key component of the School Management System. It handles the administrative tasks and functionalities related to managing the school, staff, and other administrative processes.
+The Teacher app is a Django application designed to manage various aspects related to teachers, including lesson planning, special reports, attendance, tests, exams, and their results. It provides a set of views, forms, and models to handle these functionalities.
 
 ## Functionality
 
-The Administration app offers the following features:
+The Teacher app includes the following main functionalities:
 
-1. User Management: Allows the creation, modification, and deletion of user accounts with different roles and permissions.
-2. Staff Management: Provides functionality to manage staff members, including their roles, designations, and contact information.
-3. School Information: Allows the management of basic school information such as name, address, contact details, and logo.
-4. Academic Year Management: Provides the ability to manage academic years, including setting the current active academic year.
-5. School Calendar: Allows the creation and management of important dates and events for the school.
-6. Noticeboard: Provides functionality to create and publish notices or announcements for staff and students.
-7. Reporting: Offers reporting capabilities to generate various reports related to staff, students, and school activities.
+1. Lesson Planning: Teachers can create, update, delete, and view lesson plans. Lesson plans consist of a title, description, teacher, subject, class instance, date, and additional details.
 
-## Setup and Configuration
+2. Special Reports: Teachers can give special reports for specific students. Special reports include the student and the report content.
 
-Follow these instructions to set up and configure the Administration app:
+3. Attendance: Teachers can mark attendance for different class instances, specifying the date, status, and optional remarks.
 
-### Prerequisites
+4. Tests: Teachers can create and manage tests, including the teacher, subject, class instance, date, maximum marks, and passing marks.
 
-- Python (version 3.6 or above)
-- Django framework (version 3.2 or above)
+5. Exams: Similar to tests, teachers can create and manage exams, including the teacher, subject, class instance, date, maximum marks, and passing marks.
 
-### Installation
+6. Test and Exam Results: Teachers can enter the results of tests and exams for individual students, including the test/exam, student, marks obtained, and grade.
 
-1. Clone the repository from GitHub:
+## Usage
 
-```bash
-git clone <repository_url>
-```
+The Teacher app provides views that handle the above functionalities. These views can be accessed via URLs configured in the app's URLs file. Here's a summary of the available URLs:
 
-2. Navigate to the project directory:
+- `teacher_detail`: View details of a specific teacher by providing the teacher ID.
+- `special_report_create`: Create a special report for a student by providing the teacher ID and student ID.
+- `attendance_create`: Mark attendance for a specific class by providing the teacher ID and class ID.
+- `test_create`: Create a new test by providing the teacher ID.
+- `exam_create`: Create a new exam by providing the teacher ID.
+- `test_result_create`: Enter test results for a specific test and student by providing the test ID and student ID.
+- `exam_result_create`: Enter exam results for a specific exam and student by providing the exam ID and student ID.
+- `mark_attendance`: Mark attendance for a specific class instance by providing the class instance ID.
+- `give_special_report`: Give a special report for a specific student by providing the student ID.
+- `lesson_plan_create`: Create a new lesson plan.
+- `lesson_plan_update`: Update an existing lesson plan by providing the lesson plan ID.
+- `lesson_plan_delete`: Delete an existing lesson plan by providing the lesson plan ID.
+- `lesson_plan_detail`: View details of a specific lesson plan by providing the lesson plan ID.
+- `lesson_plan_list`: View a list of all lesson plans.
 
-```bash
-cd school_management_system
-```
+## Configuration
 
-3. Create and activate a virtual environment (optional but recommended):
+To use the Teacher app in your Django project, follow these steps:
 
-```bash
-python3 -m venv venv
-source venv/bin/activate
-```
+1. Install the app: Copy the "teacher" directory into your Django project directory or install it via pip if it's available on PyPI.
 
-4. Install the required dependencies:
+2. Add the app to the project's `INSTALLED_APPS` setting: Open your project's `settings.py` file and add `'teacher'` to the `INSTALLED_APPS` list.
 
-```bash
-pip install -r requirements.txt
-```
+3. Configure URLs: Include the Teacher app URLs in your project's main `urls.py` file. Add the following line to the URL patterns list: `path('teacher/', include('teacher.urls', namespace='teacher'))`.
 
-### Configuration
+4. Run database migrations: Run the `python manage.py migrate` command to create the necessary database tables for the Teacher app.
 
-1. Update the project's `settings.py` file to include the Administration app in the `INSTALLED_APPS` setting:
+5. Set up permissions: If you want to restrict access to the Teacher app's views, configure the appropriate permissions and assign them to the relevant
 
-```python
-INSTALLED_APPS = [
-    ...
-    'administration',
-    ...
-]
-```
+ user groups.
 
-2. Configure the authentication and authorization settings in the `settings.py` file according to your project's requirements.
+## Development Environment Setup
 
-### Database Migration
+To set up a development environment for the Teacher app, follow these steps:
 
-Run the database migrations to create the necessary tables for the Administration app:
+1. Clone the project repository: Use Git to clone the project repository to your local machine.
 
-```bash
-python manage.py makemigrations
-python manage.py migrate
-```
+2. Create a virtual environment: Set up a virtual environment to isolate the dependencies of the Teacher app. Use a tool like `virtualenv` or `conda` to create a new environment.
 
-### Usage
+3. Activate the virtual environment: Activate the virtual environment to start using it. The activation steps depend on the tool used to create the environment.
 
-1. Start the development server:
+4. Install dependencies: Use pip to install the required dependencies. The dependencies are listed in the `requirements.txt` file included in the project. Run `pip install -r requirements.txt` to install them.
 
-```bash
-python manage.py runserver
-```
+5. Configure the project: Set up the necessary configuration settings for the Teacher app, such as the database connection and static/media file settings. Refer to the Django documentation for detailed instructions.
 
-2. Access the Administration app in a web browser using the following URL:
+6. Run migrations: Apply the database migrations by running the `python manage.py migrate` command. This will create the required database tables for the Teacher app.
 
-```
-http://localhost:8000/administration/
-```
+7. Create a superuser: Create a superuser account to access the Django admin interface and manage the Teacher app. Run the `python manage.py createsuperuser` command and follow the prompts to set up the superuser account.
 
-3. Use the provided functionality for user management, staff management, school information management, academic year management, school calendar, noticeboard, and reporting.
+8. Run the development server: Start the development server by running the `python manage.py runserver` command. The Teacher app will be accessible at the specified URL.
 
-## Dependencies
+## Conclusion
 
-The Administration app has the following dependencies:
+The Teacher app provides a comprehensive set of functionalities for managing various aspects related to teachers. By following the usage instructions and configuring the app in your Django project, you can effectively handle lesson planning, special reports, attendance, tests, exams, and their results. The development environment setup guide ensures a smooth setup process for local development. For further customization or integration, refer to the Django documentation and the app's source code.
 
-- Django (version 3.2 or above)
-
-Ensure that Django is installed and compatible with your Python environment.
-
-## Additional Considerations
-
-The Administration app relies on user authentication and authorization provided by Django's built-in User model. Ensure that user authentication and login functionality are set up and configured correctly before using the Administration app.
-
-Please refer to the project's documentation or contact the system administrator for specific instructions and usage guidelines related to the Administration app.
+Note: This documentation assumes familiarity with Django development concepts and assumes that you have a working Django project set up.

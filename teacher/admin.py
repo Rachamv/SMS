@@ -1,10 +1,12 @@
 from django.contrib import admin
-from . import models
+from .models import Teacher, TeachingAssignment, SpecialReport, Attendance, Test, Exam, TestResult, ExamResult, LessonPlan
 
-
-admin.site.register(models.AddressInfo)
-admin.site.register(models.EducationInfo)
-admin.site.register(models.TrainingInfo)
-admin.site.register(models.JobInfo)
-admin.site.register(models.ExperienceInfo)
-admin.site.register(models.PersonalInfo)
+admin.site.register(Teacher)
+admin.site.register(TeachingAssignment)
+admin.site.register(SpecialReport)
+admin.site.register(Attendance)
+admin.site.register(Test)
+admin.site.register(Exam)
+admin.site.register(TestResult)
+admin.site.register(ExamResult)
+admin.site.register(LessonPlan)
