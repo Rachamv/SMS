@@ -1,5 +1,5 @@
 from django.db import models
-from teacher.models import PersonalInfo
+from employee.models import EmployeeInfo
 
 class Department(models.Model):
     name = models.CharField(max_length=100, unique=True)
@@ -47,7 +47,7 @@ class Subject(models.Model):
         return self.name
 
 class GuideTeacher(models.Model):
-    name = models.OneToOneField(PersonalInfo, on_delete=models.CASCADE, null=True)
+    name = models.OneToOneField(EmployeeInfo, on_delete=models.CASCADE, null=True)
     date = models.DateField(auto_now_add=True)
 
     def __str__(self):

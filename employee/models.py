@@ -82,7 +82,7 @@ class ExperienceInfo(models.Model):
     def __str__(self):
         return self.organization
 
-class PersonalInfo(models.Model):
+class EmployeeInfo(models.Model):
     # Existing fields
 
     GENDER_CHOICES = (

@@ -1,7 +1,7 @@
 from django.test import TestCase
 from django.urls import reverse
 from django.contrib.auth.models import User
-from .models import LeaveRequest, PersonalInfo, EmployeeJobInfo
+from .models import LeaveRequest, EmployeeInfo, EmployeeJobInfo
 from attendance.models import EmployeeAttendance
 from io import BytesIO
 from reportlab.pdfgen import canvas
@@ -34,7 +34,7 @@ class EmployeeAppTests(TestCase):
 
     def test_employee_report(self):
         # Create an employee
-        employee = PersonalInfo.objects.create(name='John Doe')
+        employee = EmployeeInfo.objects.create(name='John Doe')
 
         # Create an employee job info
         job_info = EmployeeJobInfo.objects.create(
@@ -86,9 +86,9 @@ class EmployeeAppTests(TestCase):
 
     def test_employee_report_download(self):
         # Create an employee and other necessary objects
-        employee = PersonalInfo.objects.create(name='John Doe')
+        employee = EmployeeInfo.objects.create(name='John Doe')
         job_info = EmployeeJobInfo.objects.create(
-            personal_info=employee,
+            Employee_info=employee,
             designation='Engineer',
             department='IT'
         )

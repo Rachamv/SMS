@@ -21,7 +21,7 @@ def event_detail(request, event_id):
 
 @login_required
 def create_event(request):
-    if not request.user.groups.filter(name__in=['HeadTeacher', 'ChiefExecutive']).exists():
+    if not request.user.groups.filter(name__in=['Director', 'ChiefExecutive']).exists():
         messages.error(request, 'You do not have permission to create an event.')
         return redirect('event_list')
 

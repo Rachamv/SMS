@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
-from .models import ChiefExecutive, HeadTeacher, Secretary
+from .models import ChiefExecutive, Director, Secretary
 from .forms import AdminLoginForm, ChiefExecutiveForm
 
 def admin_login(request):
@@ -39,9 +39,9 @@ def chief_executive_list(request):
 
 def head_teacher_list(request):
     if request.user.is_authenticated and request.user.is_superuser:
-        head_teachers = HeadTeacher.objects.all()
+        head_teachers = Director.objects.all()
     else:
-        head_teachers = HeadTeacher.objects.filter(user=request.user)
+        head_teachers = Director.objects.filter(user=request.user)
     context = {'head_teachers': head_teachers}
     return render(request, 'administration/head_teacher_list.html', context)
 

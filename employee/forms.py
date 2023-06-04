@@ -1,12 +1,12 @@
 from django import forms
 from django.core.exceptions import ValidationError
 
-from .models import LeaveRequest, EducationInfo, TrainingInfo, EmployeeJobInfo, ExperienceInfo, PersonalInfo, EmployeeDocument
+from .models import LeaveRequest, EducationInfo, TrainingInfo, EmployeeJobInfo, ExperienceInfo, EmployeeInfo, EmployeeDocument
 
 
 class ProfileUpdateForm(forms.ModelForm):
     class Meta:
-        model = PersonalInfo
+        model = EmployeeInfo
         fields = [
             'name',
             'photo',
@@ -34,7 +34,7 @@ class EmployeeReportForm(forms.Form):
 
     def clean_employee_id(self):
         employee_id = self.cleaned_data['employee_id']
-        if not PersonalInfo.objects.filter(id=employee_id).exists():
+        if not EmployeeInfo.objects.filter(id=employee_id).exists():
             raise ValidationError('Invalid employee ID')
         return employee_id
 

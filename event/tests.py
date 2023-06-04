@@ -6,7 +6,7 @@ from .models import Event
 class EventTests(TestCase):
     def setUp(self):
         self.client = Client()
-        self.head_teacher = User.objects.create_user(username='headteacher', password='password', is_staff=True)
+        self.head_teacher = User.objects.create_user(username='Director', password='password', is_staff=True)
         self.chief_executive = User.objects.create_user(username='chiefexecutive', password='password', is_staff=True, is_superuser=True)
         self.normal_user = User.objects.create_user(username='normaluser', password='password')
 
@@ -17,7 +17,7 @@ class EventTests(TestCase):
         self.assertEqual(response.status_code, 403)  # Check if access is forbidden for normal user
 
         # Login as head teacher
-        self.client.login(username='headteacher', password='password')
+        self.client.login(username='Director', password='password')
         response = self.client.get(reverse('event:create_event'))
         self.assertEqual(response.status_code, 200)  # Check if head teacher can access the create event page
 
@@ -126,7 +126,7 @@ class EventTests(TestCase):
         self.assertEqual(response.status_code, 403)  # Check if access is forbidden for normal user
 
         # Login as head teacher
-        self.client.login(username='headteacher', password='password')
+        self.client.login(username='Director', password='password')
         response = self.client.get(reverse('event:event_update', args=[event.id]))
         self.assertEqual(response.status_code, 200)  # Check if head teacher can access the event update page
 
@@ -166,7 +166,7 @@ class EventTests(TestCase):
         self.assertEqual(response.status_code, 403)  # Check if access is forbidden for normal user
 
         # Login as head teacher
-        self.client.login(username='headteacher', password='password')
+        self.client.login(username='Director', password='password')
         response = self.client.post(reverse('event:event_delete', args=[event.id]))
         self.assertEqual(response.status_code, 302)  # Check if event deletion is successful
         self.assertEqual(Event.objects.count(), 0)  # Check if the event is deleted

@@ -6,7 +6,7 @@ The event app is a component of the school management system that allows users t
 
 The event app offers the following key features:
 
-1. Event Creation: Users with appropriate permissions (HeadTeacher and ChiefExecutive) can create new events, providing details such as title, description, start and end dates, location, organizer, and optional image.
+1. Event Creation: Users with appropriate permissions (Director and ChiefExecutive) can create new events, providing details such as title, description, start and end dates, location, organizer, and optional image.
 
 2. Recurring Events: Events can be marked as recurring, allowing users to specify the recurrence type, frequency, interval, and end date.
 

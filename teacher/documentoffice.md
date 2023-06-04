@@ -37,7 +37,7 @@ We have created several views:
 4. `edit_event`: Handles both GET and POST requests. For GET requests, it retrieves the event based on the provided `event_id` and renders the `edit_event.html` template with a form pre-populated with the event data. For POST requests, it processes the submitted form data, updates the event, and redirects to the event detail page.
 5. `delete_event`: Retrieves the event based on the provided `event_id`, handles the deletion of the event, and redirects to the event list page.
 6. `form.save_m2m()` method is used to save the many-to-many relationships, including the sponsors.
-7.  The view checks if the user's group is either `HeadTeacher` or `ChiefExecutive` using the `request.user.groups.filter()` method. If the user does not belong to either of these groups, an error message is displayed and they are redirected to the event list page.
+7.  The view checks if the user's group is either `Director` or `ChiefExecutive` using the `request.user.groups.filter()` method. If the user does not belong to either of these groups, an error message is displayed and they are redirected to the event list page.
 
 In the `LessonPlanCreateView`, the `get()` method renders the `lessonplan_create.html` template with an empty form, while the `post()` method processes the form submission. If the form is valid, the lesson plan is saved and the user is redirected to the detail view of the created lesson plan. If the form is not valid, the form is rendered again with the validation errors.
 

@@ -47,7 +47,7 @@ Here's an improved version of the `ExperienceInfo` model for the school manageme
 
 These additional fields provide more comprehensive information about the employee's work experience, allowing for better tracking and management of their professional history within the school management system.
 
- Here's an updated version of the `PersonalInfo` model for the school management system:
+ Here's an updated version of the `EmployeeInfo` model for the school management system:
 
 - Added `GENDER_CHOICES` to provide a selection of gender options.
 - Added `BLOOD_GROUP_CHOICES` to provide a selection of blood group options.
@@ -57,7 +57,7 @@ These additional fields provide more comprehensive information about the employe
 - Changed the data type of the `email` field to `EmailField` to ensure valid email addresses.
 - Removed the foreign key relationships to `EmployeeAddressInfo`, `EducationInfo`, `TrainingInfo`, `EmployeeJobInfo`, and `ExperienceInfo` as they were not explicitly mentioned.
 
-With these modifications, the `PersonalInfo` model now represents the essential personal information of an employee in the school management system.
+With these modifications, the `EmployeeInfo` model now represents the essential personal information of an employee in the school management system.
 
 
 
@@ -69,7 +69,7 @@ With these modifications, the `PersonalInfo` model now represents the essential 
 
 4. `ExperienceInfo`: Represents the work experience of an employee, including details such as the organization, designation, start date, end date, responsibilities, and associated trainings.
 
-5. `PersonalInfo`: Represents personal information about an employee, including details such as name, photo, date of birth, place of birth, nationality, religion, gender, blood group, e_tin (Employee Tax Identification Number), nid (National Identification Number), driving license or passport, phone number, email, father's name, mother's name, marital status, address, and emergency contact.
+5. `EmployeeInfo`: Represents personal information about an employee, including details such as name, photo, date of birth, place of birth, nationality, religion, gender, blood group, e_tin (Employee Tax Identification Number), nid (National Identification Number), driving license or passport, phone number, email, father's name, mother's name, marital status, address, and emergency contact.
 
 `EmployeeDocument` In this model, we have a foreign key to the `EmployeeJobInfo` model to associate the document with the corresponding employee. The `document` field is a FileField that will store the uploaded file.
 
@@ -97,8 +97,8 @@ In the updated `urls.py` file:
 
 ===Forms===
 
-The `ProfileUpdateForm`, you need to specify the model PersonalInfo and the fields you want to include in the form. 
-In the `EmployeeReportForm`, it is a simple form with a single field `employee_id`, which represents the ID of the employee for whom the report will be generated. The form includes validation to check if the provided employee ID exists in the `PersonalInfo` model.
+The `ProfileUpdateForm`, you need to specify the model EmployeeInfo and the fields you want to include in the form. 
+In the `EmployeeReportForm`, it is a simple form with a single field `employee_id`, which represents the ID of the employee for whom the report will be generated. The form includes validation to check if the provided employee ID exists in the `EmployeeInfo` model.
 
 ===Tests===
 

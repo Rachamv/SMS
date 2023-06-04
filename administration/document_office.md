@@ -10,12 +10,12 @@ chief_executive_user.grant_manage_everything_permission()
 ````
 This will create the custom permission and associate it with the chiefexecutive user.
 
-2. HeadTeacher: This model represents the head teacher (office) who manages all the teachers in the school. It has a one-to-one relationship with the User model from Django's built-in authentication system (AbstractUser). The name field is a character field that stores the name of the head teacher, and the date field is a DateField that automatically stores the date when the instance was created. Additionally, it has a ManyToManyField relationship with the Teacher model (assuming there is a Teacher model defined elsewhere) to manage the teachers associated with the head teacher.
+2. Director: This model represents the head teacher (office) who manages all the teachers in the school. It has a one-to-one relationship with the User model from Django's built-in authentication system (AbstractUser). The name field is a character field that stores the name of the head teacher, and the date field is a DateField that automatically stores the date when the instance was created. Additionally, it has a ManyToManyField relationship with the Teacher model (assuming there is a Teacher model defined elsewhere) to manage the teachers associated with the head teacher.
 
 3. Secretary: This model represents the secretary (office) responsible for handling payment and financial activities of the school. It also has a one-to-one relationship with the User model. The name field stores the name of the secretary, and the date field stores the creation date of the instance.
 
 ===Views===
-In this updated code, we have included the `ChiefExecutive`, `HeadTeacher`, and `Secretary` models from your `models.py` file. Additionally, we have added the following view functions:
+In this updated code, we have included the `ChiefExecutive`, `Director`, and `Secretary` models from your `models.py` file. Additionally, we have added the following view functions:
 
 1. `admin_login(request)`: This view handles the login functionality for the admin user. It renders a login form (`AdminLoginForm`) using the `administration/login.html` template. If the request method is POST, it validates the form data, authenticates the user using `authenticate()`, and if successful, logs in the user using `login()` and redirects to the 'home' page. The context includes the login form (`forms`).
 
@@ -27,7 +27,7 @@ In this updated code, we have included the `ChiefExecutive`, `HeadTeacher`, and 
 
 5. `head_teacher_list(request)`: This view fetches all the existing head teachers from
 
- the `HeadTeacher` model and renders them using the `administration/head_teacher_list.html` template. The context includes the list of head teachers (`head_teachers`).
+ the `Director` model and renders them using the `administration/head_teacher_list.html` template. The context includes the list of head teachers (`head_teachers`).
 
 6. `secretary_list(request)`: This view fetches all the existing secretaries from the `Secretary` model and renders them using the `administration/secretary_list.html` template. The context includes the list of secretaries (`secretaries`).
 
@@ -56,19 +56,19 @@ Here's a breakdown of the URLs defined in the `urls.py` file:
 
 2. `ChiefExecutiveForm`: A ModelForm for adding a `ChiefExecutive` instance, with a single field for the name.
 
-3. `HeadTeacherForm`: A form that extends Django's `UserCreationForm` for creating a `HeadTeacher` user. It includes additional fields for the name, username, and passwords (password1 and password2).
+3. `DirectorForm`: A form that extends Django's `UserCreationForm` for creating a `Director` user. It includes additional fields for the name, username, and passwords (password1 and password2).
 
-4. `SecretaryForm`: Similar to the `HeadTeacherForm`, this form extends `UserCreationForm` for creating a `Secretary` user, with additional fields for the name, username, and passwords.
+4. `SecretaryForm`: Similar to the `DirectorForm`, this form extends `UserCreationForm` for creating a `Secretary` user, with additional fields for the name, username, and passwords.
 
 ===Admin===
 
 we use the `admin.site.register()` function as a decorator to register the models in the Django admin interface. Each model is associated with a corresponding admin class (`admin.ModelAdmin` subclass) that specifies the desired behavior and appearance in the admin interface.
 
-With this setup, we should be able to manage the `ChiefExecutive`, `HeadTeacher`, and `Secretary` models through the Django admin interface.
+With this setup, we should be able to manage the `ChiefExecutive`, `Director`, and `Secretary` models through the Django admin interface.
 
 ===Test===
 
-Within each test case, we define individual test methods that verify specific aspects of the corresponding model. For example, in the `ChiefExecutiveTestCase`, we test the string representation of the `ChiefExecutive` instance and the functionality of the `grant_manage_everything_permission()` method. Similarly, in the `HeadTeacherTestCase` and `SecretaryTestCase`, we test the string representation and specific permissions related to each model.
+Within each test case, we define individual test methods that verify specific aspects of the corresponding model. For example, in the `ChiefExecutiveTestCase`, we test the string representation of the `ChiefExecutive` instance and the functionality of the `grant_manage_everything_permission()` method. Similarly, in the `DirectorTestCase` and `SecretaryTestCase`, we test the string representation and specific permissions related to each model.
 
 
 

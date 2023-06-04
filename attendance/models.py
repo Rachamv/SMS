@@ -1,7 +1,7 @@
 from django.db import models
 from academic.models import ClassRegistration
 from student.models import EnrolledStudent
-from employee.models import PersonalInfo
+from employee.models import EmployeeInfo
 from account.models import UserProfile
 
 class AttendanceManager(models.Manager):

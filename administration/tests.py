@@ -1,6 +1,6 @@
 from django.test import TestCase
 from django.contrib.auth.models import User
-from .models import ChiefExecutive, HeadTeacher, Secretary
+from .models import ChiefExecutive, Director, Secretary
 
 class ChiefExecutiveTestCase(TestCase):
     def setUp(self):
@@ -13,10 +13,10 @@ class ChiefExecutiveTestCase(TestCase):
         self.chief_executive.grant_manage_everything_permission()
         self.assertTrue(self.chief_executive.has_perm('administration.can_manage_everything'))
 
-class HeadTeacherTestCase(TestCase):
+class DirectorTestCase(TestCase):
     def setUp(self):
         self.user = User.objects.create_user(username='teacher', password='password')
-        self.head_teacher = HeadTeacher.objects.create(user=self.user, name='Jane Smith')
+        self.head_teacher = Director.objects.create(user=self.user, name='Jane Smith')
 
     def test_str_representation(self):
         self.assertEqual(str(self.head_teacher), 'Jane Smith')

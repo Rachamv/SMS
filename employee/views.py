@@ -13,14 +13,14 @@ from .models import (
     TrainingInfo,
     EmployeeJobInfo,
     ExperienceInfo,
-    PersonalInfo,
+    EmployeeInfo,
     EmployeeDocument,
 )
 from .forms import LeaveRequestForm, EmployeeReportForm, ProfileUpdateForm
 
 class EmployeeDetailView(LoginRequiredMixin, View):
     def get(self, request, employee_id):
-        employee = get_object_or_404(PersonalInfo, id=employee_id)
+        employee = get_object_or_404(EmployeeInfo, id=employee_id)
         education_info = EducationInfo.objects.filter(personal_info=employee)
         training_info = TrainingInfo.objects.filter(personal_info=employee)
         job_info = EmployeeJobInfo.objects.get(personal_info=employee)
@@ -37,7 +37,7 @@ class EmployeeDetailView(LoginRequiredMixin, View):
         return render(request, 'employee/employee_detail.html', context)
 
     def post(self, request, employee_id):
-        employee = get_object_or_404(PersonalInfo, id=employee_id)
+        employee = get_object_or_404(EmployeeInfo, id=employee_id)
         form = ProfileUpdateForm(request.POST, instance=employee)
         if form.is_valid():
             form.save()
@@ -58,7 +58,7 @@ def leave_request(request):
             leave_request = form.save(commit=False)
             leave_request.employee = request.user.employeejobinfo
 
-            if request.user.groups.filter(name__in=['ChiefExecutive', 'HeadTeacher']).exists():
+            if request.user.groups.filter(name__in=['ChiefExecutive', 'Director']).exists():
                 leave_request.status = 'approved'
             else:
                 leave_request.status = 'pending'
@@ -79,7 +79,7 @@ def employee_report(request):
         form = EmployeeReportForm(request.POST)
         if form.is_valid():
             employee_id = form.cleaned_data['employee_id']
-            employee = get_object_or_404(PersonalInfo, id=employee_id)
+            employee = get_object_or_404(EmployeeInfo, id=employee_id)
             job_info = EmployeeJobInfo.objects.get(personal_info=employee)
             attendance_history = EmployeeAttendance.objects.filter(employee=job_info)
 

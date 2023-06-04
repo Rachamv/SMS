@@ -5,7 +5,7 @@ from .models import (
     TrainingInfo,
     EmployeeJobInfo,
     ExperienceInfo,
-    PersonalInfo,
+    EmployeeInfo,
     EmployeeDocument,
 )
 
@@ -39,8 +39,8 @@ class ExperienceInfoAdmin(admin.ModelAdmin):
     list_display = ('id', 'personal_info', 'organization', 'position', 'start_date', 'end_date')
 
 
-@admin.register(PersonalInfo)
-class PersonalInfoAdmin(admin.ModelAdmin):
+@admin.register(EmployeeInfo)
+class EmployeeInfoAdmin(admin.ModelAdmin):
     list_display = ('id', 'name', 'date_of_birth', 'gender', 'blood_group')
     search_fields = ('name', 'email')
 

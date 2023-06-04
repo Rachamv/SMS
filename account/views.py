@@ -1,23 +1,59 @@
 from django.shortcuts import render
-from django.contrib.auth.models import User
-from .models import UserProfile
-from .forms import ProfileForm
+from .models import UserProfile, UserRegistration
 
-def profile(request):
-    profile = UserProfile.objects.get(id=request.user.id)
-    context = {
-        'profile': profile
-    }
-    return render(request, 'account/profile.html', context)
+def user_profile(request):
+    user_profile = UserProfile.objects.get(user=request.user)
+    context = {'user_profile': user_profile}
+    return render(request, 'user_profile.html', context)
 
-def update_profile(request):
-    profile = UserProfile.objects.get(id=request.user.id)
-    forms = ProfileForm(instance=profile)
+def user_registration(request):
     if request.method == 'POST':
-        forms = ProfileForm(request.POST, request.FILES, instance=profile)
-        if forms.is_valid():
-            forms.save()
-    context = {
-        'forms': forms
-    }
-    return render(request, 'account/update-profile.html', context)
+        name = request.POST['name']
+        email = request.POST['email']
+        date_of_birth = request.POST['date_of_birth']
+        role = request.POST['role']
+        
+        # Create UserRegistration object
+        user_registration = UserRegistration.objects.create(
+            user=request.user,
+            name=name,
+            email=email,
+            date_of_birth=date_of_birth,
+            role=role
+        )
+        
+        # Create UserProfile object
+        user_profile = UserProfile.objects.create(
+            user=request.user,
+            name=name,
+            photo='photos/default.jpg',
+            gender='',
+            employee_type=role,
+            admin=None,
+            director=None,
+            register=None,
+            teacher=None,
+            parent=None,
+            student=None,
+            registration=user_registration
+        )
+        
+        return render(request, 'registration_success.html')
+    
+    return render(request, 'user_registration.html')
+
+
+def user_upDate(request):
+    user_profile = UserProfile.objects.get(user=request.user)
+
+    if request.method == 'POST':
+        form = UserProfileForm(request.POST, request.FILES, instance=user_profile)
+        if form.is_valid():
+            form.save()
+            return redirect('user_update')
+    else:
+        form = UserProfileForm(instance=user_user_update)
+
+    context = {'user_update': user_profile, 'form': form}
+    return render(request, 'user_update.html', context)
+

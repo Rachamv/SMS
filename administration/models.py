@@ -19,7 +19,7 @@ class ChiefExecutive(models.Model):
         )
         self.user_permissions.add(permission)
 
-class HeadTeacher(models.Model):
+class Director(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=100, unique=True)
     date = models.DateField(auto_now_add=True)

@@ -1,12 +1,12 @@
 from django.contrib import admin
-from .models import ChiefExecutive, HeadTeacher, Secretary
+from .models import ChiefExecutive, Director, Secretary
 
 @admin.register(ChiefExecutive)
 class ChiefExecutiveAdmin(admin.ModelAdmin):
     list_display = ('name', 'date')
 
-@admin.register(HeadTeacher)
-class HeadTeacherAdmin(admin.ModelAdmin):
+@admin.register(Director)
+class DirectorAdmin(admin.ModelAdmin):
     list_display = ('name', 'date')
 
 @admin.register(Secretary)
